@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import './App.css';
-import GameCard from './components/GameCard';
+import { useState, useEffect } from "react";
+import "./App.css";
+import GameCard from "./components/GameCard";
 
 function App() {
-  const [gameData, setGameData] = useState(null);
+  const [gameData, setGameData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchGameData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/game');
+        const response = await fetch("http://localhost:4000/api/game");
         if (!response.ok) {
-          throw new Error('Failed to fetch game data');
+          throw new Error("Failed to fetch game data");
         }
         const data = await response.json();
         setGameData(data);
@@ -40,7 +40,9 @@ function App() {
         <h1>NBA Live Scoreboard</h1>
       </header>
       <main>
-        {gameData && <GameCard game={gameData} />}
+        {gameData.map((game) => (
+          <GameCard key={game.id} game={game} />
+        ))}
       </main>
     </div>
   );
